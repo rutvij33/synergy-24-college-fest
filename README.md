@@ -93,6 +93,20 @@ Simply double click `index.html` to open it in your default web browser, or run 
 python3 -m http.server 8000
 
 # Using Node.js
-npx serve
+npm start
+# or: npx serve
 ```
 Then visit `http://localhost:8000` or `http://localhost:3000`.
+
+---
+
+## ⚡ Deploying to Vercel
+
+The project is fully pre-configured for Vercel with a `vercel.json` configuration file supporting clean URLs and performance caching.
+
+### Deploy in 3 Clicks:
+1. Go to [vercel.com/new](https://vercel.com/new).
+2. Connect your GitHub account and import `rutvij33/synergy-24-college-fest`.
+3. Keep the default settings (Framework Preset: **Other**) and click **Deploy**.
+4. Your site will instantly be live with global CDN performance and HTTPS!
+
