@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery — SYNERGY '24 College Fest</title>
+  <meta name="description" content="Browse the SYNERGY '24 photo gallery — live concerts, hackathons, dance performances, art exhibitions, and more. Watch our promo video!" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Gallery filter bar */
+    .gallery-filter {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 2.5rem;
+    }
+    .filter-btn {
+      padding: 0.5rem 1.25rem;
+      border-radius: 100px;
+      font-family: var(--font-main);
+      font-weight: 600;
+      font-size: 0.85rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-glass);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .filter-btn.active {
+      background: var(--accent-grad);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 4px 12px rgba(139,92,246,0.3);
+    }
+    .filter-btn:hover:not(.active) {
+      border-color: var(--accent-purple);
+      color: var(--accent-purple);
+    }
+
+    /* Gallery item show/hide */
+    .gallery-item { transition: transform 0.4s ease, opacity 0.3s ease; }
+    .gallery-item.hidden { display: none; }
+
+    /* Promo + Audio section */
+    .media-section-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      align-items: start;
+    }
+    @media (max-width: 768px) {
+      .media-section-grid { grid-template-columns: 1fr; }
+    }
+
+    .media-block-title {
+      font-family: var(--font-main);
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══ NAVIGATION ══ -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="nav-logo" id="nav-logo-gallery">
+      <span class="logo-icon" aria-hidden="true">⚡</span>
+      <span class="logo-text">SYNERGY '24</span>
+    </a>
+
+    <ul class="nav-links" role="list">
+      <li><a href="index.html"    id="nav-home">Home</a></li>
+      <li><a href="schedule.html" id="nav-schedule">Schedule</a></li>
+      <li><a href="gallery.html"  class="active" id="nav-gallery">Gallery</a></li>
+      <li><a href="contact.html"  id="nav-contact">Register</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <button class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle dark/light mode">🌙</button>
+      <a href="contact.html" class="btn-nav-cta" id="nav-register-cta">Register Now</a>
+      <button class="hamburger" id="hamburger-btn" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation">
+    <a href="index.html"    id="mob-home">Home</a>
+    <a href="schedule.html" id="mob-schedule">Schedule</a>
+    <a href="gallery.html"  class="active" id="mob-gallery">Gallery</a>
+    <a href="contact.html"  id="mob-contact">Register</a>
+  </nav>
+
+  <div class="page-wrapper">
+
+    <!-- ══ PAGE HERO ══ -->
+    <header class="page-hero" role="banner">
+      <span class="section-tag">Memories in Motion</span>
+      <h1>Photo <span class="highlight">Gallery</span></h1>
+      <p>Relive the best moments from SYNERGY '24 through our curated photo gallery, promo video, and more.</p>
+    </header>
+
+    <main>
+
+      <!-- ══ PHOTO GALLERY ══ -->
+      <section class="section" aria-labelledby="gallery-heading">
+        <div class="section-header">
+          <span class="section-tag">Past Editions</span>
+          <h2 class="section-title" id="gallery-heading">Captured <span class="highlight">Moments</span></h2>
+          <p class="section-desc">Click any photo to view it in full size.</p>
+        </div>
+
+        <!-- Filter -->
+        <div class="gallery-filter" role="group" aria-label="Gallery filter">
+          <button class="filter-btn active" id="filter-all"   onclick="filterGallery('all',   this)">All Photos</button>
+          <button class="filter-btn"        id="filter-music" onclick="filterGallery('music', this)">🎵 Music</button>
+          <button class="filter-btn"        id="filter-tech"  onclick="filterGallery('tech',  this)">💻 Tech</button>
+          <button class="filter-btn"        id="filter-art"   onclick="filterGallery('art',   this)">🎨 Art</button>
+          <button class="filter-btn"        id="filter-dance" onclick="filterGallery('dance', this)">💃 Dance</button>
+        </div>
+
+        <div class="gallery-grid" id="gallery-grid" role="list" aria-label="Event photo gallery">
+
+          <figure class="gallery-item" data-category="music" role="listitem">
+            <img src="images/gallery_1.jpg"
+                 alt="Live band performing on the SYNERGY '24 main stage with colorful crowd"
+                 loading="lazy"
+                 onclick="openLightbox(this.src, this.alt)" />
+            <div class="gallery-overlay">
+              <div class="gallery-overlay-text">Live Band Performance 🎸</div>
+            </div>
+          </figure>
+
+          <figure class="gallery-item" data-category="music" role="listitem">
+            <img src="images/gallery_2.jpg"
+                 alt="DJ Luna performing at SYNERGY fest with neon laser lights and crowd"
+                 loading="lazy"
+                 onclick="openLightbox(this.src, this.alt)" />
+            <div class="gallery-overlay">
+              <div class="gallery-overlay-text">DJ Luna — Headliner Night 🎧</div>
+            </div>
+          </figure>
+
+          <figure class="gallery-item" data-category="tech" role="listitem">
+            <img src="images/gallery_3.jpg"
+                 alt="Students coding at HackFest 24 hackathon with laptops and banners"
+                 loading="lazy"
+                 onclick="openLightbox(this.src, this.alt)" />
+            <div class="gallery-overlay">
+              <div class="gallery-overlay-text">HackFest '24 — Code Marathon 💻</div>
+            </div>
+          </figure>
+
+          <figure class="gallery-item" data-category="art" role="listitem">
+            <img src="images/gallery_4.jpg"
+                 alt="Students at the Campus Art Gallery viewing colorful paintings at College Fest 2024"
+                 loading="lazy"
+                 onclick="openLightbox(this.src, this.alt)" />
+            <div class="gallery-overlay">
+              <div class="gallery-overlay-text">Student Art Exhibition 🎨</div>
+            </div>
+          </figure>
+
+          <figure class="gallery-item" data-category="dance" role="listitem">
+            <img src="images/gallery_5.jpg"
+                 alt="Traditional fusion dance performance on stage with colorful costumes and spotlights"
+                 loading="lazy"
+                 onclick="openLightbox(this.src, this.alt)" />
+            <div class="gallery-overlay">
+              <div class="gallery-overlay-text">Cultural Fusion Dance 💃</div>
+            </div>
+          </figure>
+
+          <figure class="gallery-item" data-category="music" role="listitem">
+            <img src="images/hero_banner.jpg"
+                 alt="Grand finale concert at SYNERGY '24 with laser light show and festive crowd"
+                 loading="lazy"
+                 onclick="openLightbox(this.src, this.alt)" />
+            <div class="gallery-overlay">
+              <div class="gallery-overlay-text">Grand Finale Concert 🎉</div>
+            </div>
+          </figure>
+
+        </div>
+      </section>
+
+      <!-- ══ VIDEO & AUDIO ══ -->
+      <section class="section section-alt" aria-labelledby="media-heading">
+        <div class="section-header">
+          <span class="section-tag">Media</span>
+          <h2 class="section-title" id="media-heading">Promo <span class="highlight">Reel &amp; Audio</span></h2>
+          <p class="section-desc">Watch our official promo video, HTML5 teaser, and listen to the SYNERGY '24 playlist.</p>
+        </div>
+
+        <div class="media-section-grid">
+          <!-- Video Cards column -->
+          <div>
+            <!-- HTML5 Video element with controls -->
+            <article style="margin-bottom:2rem;">
+              <p class="media-block-title">📹 Festival Reel (HTML5 Video)</p>
+              <div class="video-container" style="border-radius:var(--radius-md); overflow:hidden; background:#000;">
+                <video
+                  id="festival-teaser-video"
+                  controls
+                  preload="metadata"
+                  poster="images/hero_banner.jpg"
+                  style="width:100%; height:100%; object-fit:cover; display:block;"
+                  aria-label="SYNERGY 24 college fest teaser video player">
+                  <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+              <p style="font-size:0.82rem; color:var(--text-muted); margin-top:0.75rem; text-align:center;">
+                SYNERGY '24 — Official Video Teaser (HTML5 &lt;video controls&gt;)
+              </p>
+            </article>
+
+            <!-- YouTube embed (iframe) -->
+            <article>
+              <p class="media-block-title">🎬 YouTube Stream &amp; Highlights</p>
+              <div class="video-container">
+                <iframe
+                  id="promo-video-iframe"
+                  src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0&amp;modestbranding=1"
+                  title="SYNERGY '24 Official Promo Video — College Fest Highlights"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                  loading="lazy">
+                </iframe>
+              </div>
+              <p style="font-size:0.82rem; color:var(--text-muted); margin-top:0.75rem; text-align:center;">
+                SYNERGY '24 — The Night Is Ours | Official YouTube Broadcast
+              </p>
+            </article>
+          </div>
+
+          <!-- Audio element -->
+          <div>
+            <p class="media-block-title">🎵 SYNERGY '24 Playlist</p>
+            <div class="audio-section">
+              <p class="audio-label">🎶 SYNERGY Official Anthem</p>
+              <audio controls id="synergy-anthem-audio" aria-label="SYNERGY 24 official anthem audio player">
+                <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg" />
+                Your browser does not support the audio element.
+              </audio>
+
+              <p class="audio-label" style="margin-top:1.5rem;">🥁 Opening Beats — Percussion Mix</p>
+              <audio controls id="synergy-percussion-audio" aria-label="Opening beats percussion mix audio player">
+                <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg" />
+                Your browser does not support the audio element.
+              </audio>
+            </div>
+
+            <!-- Venue Map -->
+            <p class="media-block-title" style="margin-top:2rem;">📍 Find Us on the Map</p>
+            <div class="map-wrapper">
+              <iframe
+                id="venue-map-iframe"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3720.8!2d72.8777!3d21.1702!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjHCsDEwJzEyLjciTiA3MsKwNTInMzkuNyJF!5e0!3m2!1sen!2sin!4v1234567890"
+                title="SYNERGY '24 College Campus Location Map"
+                allowfullscreen
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+              </iframe>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div><!-- /page-wrapper -->
+
+  <!-- ══ LIGHTBOX ══ -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image lightbox" onclick="closeLightbox(event)">
+    <img id="lightbox-img" src="" alt="" />
+    <button class="lightbox-close" id="lightbox-close-btn" onclick="closeLightbox()" aria-label="Close lightbox">✕</button>
+  </div>
+
+  <!-- ══ FOOTER ══ -->
+  <footer role="contentinfo">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">
+          <span class="logo-icon">⚡</span>
+          <span class="logo-text">SYNERGY '24</span>
+        </a>
+        <p>The biggest college fest of the year — celebrating creativity, technology, and student spirit across three unforgettable days.</p>
+        <div class="footer-social" aria-label="Social media links">
+          <a href="#" class="social-btn" aria-label="Instagram">📸</a>
+          <a href="#" class="social-btn" aria-label="Twitter">🐦</a>
+          <a href="#" class="social-btn" aria-label="YouTube">▶️</a>
+          <a href="#" class="social-btn" aria-label="Facebook">👥</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul role="list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="schedule.html">Schedule</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="contact.html">Register</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Events</h4>
+        <ul role="list">
+          <li><a href="schedule.html">Music &amp; Concerts</a></li>
+          <li><a href="schedule.html">Hackathon</a></li>
+          <li><a href="schedule.html">Dance Battle</a></li>
+          <li><a href="schedule.html">Art Exhibition</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Info</h4>
+        <ul role="list">
+          <li><a href="#">About SYNERGY</a></li>
+          <li><a href="#">Sponsors</a></li>
+          <li><a href="#">Press Kit</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 SYNERGY College Fest. All rights reserved.</span>
+      <span>Made with ❤️ by the Fest Committee</span>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="back-to-top-btn" aria-label="Back to top">↑</button>
+
+  <script>
+    // ── Theme Toggle ──
+    const html     = document.documentElement;
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    function applyTheme(t) {
+      html.setAttribute('data-theme', t);
+      themeBtn.textContent = t === 'dark' ? '🌙' : '☀️';
+      localStorage.setItem('synergy-theme', t);
+    }
+    applyTheme(localStorage.getItem('synergy-theme') || 'dark');
+    themeBtn.addEventListener('click', () => applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
+
+    // ── Hamburger ──
+    const hamburger  = document.getElementById('hamburger-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    hamburger.addEventListener('click', () => {
+      const open = mobileMenu.classList.toggle('open');
+      hamburger.classList.toggle('open', open);
+      hamburger.setAttribute('aria-expanded', String(open));
+    });
+
+    // ── Gallery Filter ──
+    function filterGallery(cat, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      document.querySelectorAll('.gallery-item').forEach(item => {
+        if (cat === 'all' || item.dataset.category === cat) {
+          item.classList.remove('hidden');
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+    }
+
+    // ── Lightbox ──
+    const lightbox    = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+
+    function openLightbox(src, alt) {
+      lightboxImg.src = src;
+      lightboxImg.alt = alt;
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox(e) {
+      if (!e || e.target === lightbox || e.target.id === 'lightbox-close-btn') {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+        lightboxImg.src = '';
+      }
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeLightbox({ target: lightbox });
+    });
+
+    // ── Back to Top ──
+    const backToTop = document.getElementById('back-to-top-btn');
+    window.addEventListener('scroll', () => backToTop.classList.toggle('visible', window.scrollY > 400));
+    backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  </script>
+</body>
+</html>

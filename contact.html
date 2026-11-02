@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register &amp; Contact — SYNERGY '24 College Fest</title>
+  <meta name="description" content="Register for SYNERGY '24 events or contact the fest committee. Fill out our event registration form with your details, choose events, and book your spot today!" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── Extra styles for contact page ── */
+    .contact-page-hero {
+      background: linear-gradient(135deg, rgba(139,92,246,0.15) 0%, rgba(236,72,153,0.08) 100%);
+      border-bottom: 1px solid var(--border-glass);
+      padding: 5rem clamp(1rem, 5vw, 3rem) 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .contact-page-hero::before {
+      content: '';
+      position: absolute;
+      top: -40%; right: -10%;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(236,72,153,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* Steps indicator */
+    .steps-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+    }
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-main);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .step-item.active { color: var(--accent-purple); }
+    .step-circle {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 2px solid var(--border-glass);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .step-item.active .step-circle {
+      background: var(--accent-grad);
+      border-color: transparent;
+      color: #fff;
+    }
+    .step-line {
+      width: 48px; height: 2px;
+      background: var(--border-glass);
+      margin: 0 0.25rem;
+    }
+
+    /* FAQ accordion */
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-bottom: 0.75rem;
+      transition: border-color var(--transition);
+    }
+    .faq-item:hover { border-color: rgba(139,92,246,0.3); }
+    .faq-question {
+      width: 100%;
+      padding: 1rem 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-align: left;
+      font-family: var(--font-main);
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      cursor: pointer;
+      background: none;
+      border: none;
+      gap: 1rem;
+    }
+    .faq-icon {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: rgba(139,92,246,0.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+      color: var(--accent-purple);
+      flex-shrink: 0;
+      transition: transform var(--transition);
+    }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s ease;
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      padding: 0 1.25rem;
+    }
+    .faq-item.open .faq-answer {
+      max-height: 200px;
+      padding: 0 1.25rem 1rem;
+    }
+
+    /* Strength meter */
+    .strength-meter {
+      height: 4px;
+      border-radius: 2px;
+      background: var(--border-glass);
+      margin-top: 0.4rem;
+      overflow: hidden;
+    }
+    .strength-fill {
+      height: 100%;
+      border-radius: 2px;
+      width: 0%;
+      transition: width 0.3s ease, background 0.3s ease;
+    }
+
+    /* Live char counter */
+    .char-counter {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-align: right;
+      margin-top: 0.25rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══ NAVIGATION ══ -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="nav-logo" id="nav-logo-contact">
+      <span class="logo-icon" aria-hidden="true">⚡</span>
+      <span class="logo-text">SYNERGY '24</span>
+    </a>
+
+    <ul class="nav-links" role="list">
+      <li><a href="index.html"    id="nav-home">Home</a></li>
+      <li><a href="schedule.html" id="nav-schedule">Schedule</a></li>
+      <li><a href="gallery.html"  id="nav-gallery">Gallery</a></li>
+      <li><a href="contact.html"  class="active" id="nav-contact">Register</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <button class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle dark/light mode">🌙</button>
+      <a href="contact.html" class="btn-nav-cta" id="nav-register-cta">Register Now</a>
+      <button class="hamburger" id="hamburger-btn" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation">
+    <a href="index.html"    id="mob-home">Home</a>
+    <a href="schedule.html" id="mob-schedule">Schedule</a>
+    <a href="gallery.html"  id="mob-gallery">Gallery</a>
+    <a href="contact.html"  class="active" id="mob-contact">Register</a>
+  </nav>
+
+  <div class="page-wrapper">
+
+    <!-- ══ PAGE HERO ══ -->
+    <header class="contact-page-hero" role="banner">
+      <span class="section-tag">Secure Your Spot</span>
+      <h1 style="font-family:var(--font-main); font-size:clamp(2rem,5vw,3.5rem); font-weight:900; letter-spacing:-1px; margin-bottom:0.75rem; position:relative; z-index:1;">
+        Event <span class="highlight">Registration</span>
+      </h1>
+      <p style="color:var(--text-secondary); max-width:500px; margin:0 auto; position:relative; z-index:1;">
+        Fill in the form below to register for SYNERGY '24 events. Limited spots available — book early!
+      </p>
+    </header>
+
+    <main>
+      <section class="section" aria-labelledby="registration-heading">
+
+        <div class="contact-grid">
+
+          <!-- ══ LEFT: REGISTRATION FORM ══ -->
+          <div>
+            <!-- Steps indicator -->
+            <div class="steps-bar" role="list" aria-label="Registration steps">
+              <div class="step-item active" role="listitem">
+                <div class="step-circle">1</div>
+                <span>Your Info</span>
+              </div>
+              <div class="step-line" aria-hidden="true"></div>
+              <div class="step-item" role="listitem">
+                <div class="step-circle">2</div>
+                <span>Events</span>
+              </div>
+              <div class="step-line" aria-hidden="true"></div>
+              <div class="step-item" role="listitem">
+                <div class="step-circle">3</div>
+                <span>Confirm</span>
+              </div>
+            </div>
+
+            <div class="form-card">
+              <h2 id="registration-heading">Register for SYNERGY '24</h2>
+              <p>All fields marked <span style="color:#ef4444">*</span> are required. We'll send your confirmation to your email.</p>
+
+              <form id="registration-form" novalidate aria-describedby="form-instructions">
+                <p id="form-instructions" class="sr-only">Complete the form to register for SYNERGY '24. All starred fields are required.</p>
+
+                <!-- Row: First & Last Name -->
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="first-name">First Name <span aria-hidden="true" style="color:#ef4444">*</span></label>
+                    <input
+                      type="text"
+                      id="first-name"
+                      name="first_name"
+                      placeholder="Riya"
+                      required
+                      minlength="2"
+                      maxlength="50"
+                      autocomplete="given-name"
+                      aria-required="true"
+                      aria-describedby="first-name-error" />
+                    <span class="field-error" id="first-name-error" role="alert"></span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="last-name">Last Name <span aria-hidden="true" style="color:#ef4444">*</span></label>
+                    <input
+                      type="text"
+                      id="last-name"
+                      name="last_name"
+                      placeholder="Sharma"
+                      required
+                      minlength="2"
+                      maxlength="50"
+                      autocomplete="family-name"
+                      aria-required="true"
+                      aria-describedby="last-name-error" />
+                    <span class="field-error" id="last-name-error" role="alert"></span>
+                  </div>
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                  <label for="email">Email Address <span aria-hidden="true" style="color:#ef4444">*</span></label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="riya@college.edu"
+                    required
+                    pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}"
+                    autocomplete="email"
+                    aria-required="true"
+                    aria-describedby="email-error" />
+                  <span class="field-error" id="email-error" role="alert"></span>
+                </div>
+
+                <!-- Phone -->
+                <div class="form-group">
+                  <label for="phone">Phone Number <span aria-hidden="true" style="color:#ef4444">*</span></label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    placeholder="+91 98765 43210"
+                    required
+                    pattern="[\+]?[0-9\s\-]{10,15}"
+                    autocomplete="tel"
+                    aria-required="true"
+                    aria-describedby="phone-error" />
+                  <span class="field-error" id="phone-error" role="alert"></span>
+                </div>
+
+                <!-- Row: College & Year -->
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="college">College / University <span aria-hidden="true" style="color:#ef4444">*</span></label>
+                    <input
+                      type="text"
+                      id="college"
+                      name="college"
+                      placeholder="MIT College"
+                      required
+                      minlength="3"
+                      aria-required="true"
+                      aria-describedby="college-error" />
+                    <span class="field-error" id="college-error" role="alert"></span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="year">Year of Study <span aria-hidden="true" style="color:#ef4444">*</span></label>
+                    <select id="year" name="year" required aria-required="true" aria-describedby="year-error">
+                      <option value="" disabled selected>Select year</option>
+                      <option value="1">1st Year</option>
+                      <option value="2">2nd Year</option>
+                      <option value="3">3rd Year</option>
+                      <option value="4">4th Year</option>
+                      <option value="pg">Post Graduate</option>
+                    </select>
+                    <span class="field-error" id="year-error" role="alert"></span>
+                  </div>
+                </div>
+
+                <!-- Date of Registration -->
+                <div class="form-group">
+                  <label for="reg-date">Preferred Attendance Date <span aria-hidden="true" style="color:#ef4444">*</span></label>
+                  <input
+                    type="date"
+                    id="reg-date"
+                    name="reg_date"
+                    min="2024-11-15"
+                    max="2024-11-17"
+                    required
+                    aria-required="true"
+                    aria-describedby="date-error" />
+                  <span class="field-error" id="date-error" role="alert"></span>
+                </div>
+
+                <!-- Number of tickets -->
+                <div class="form-group">
+                  <label for="tickets">Number of Tickets <span aria-hidden="true" style="color:#ef4444">*</span></label>
+                  <input
+                    type="number"
+                    id="tickets"
+                    name="tickets"
+                    min="1"
+                    max="10"
+                    value="1"
+                    required
+                    aria-required="true"
+                    aria-describedby="tickets-error" />
+                  <span class="field-error" id="tickets-error" role="alert"></span>
+                </div>
+
+                <!-- Events interested in (checkboxes) -->
+                <div class="form-group">
+                  <fieldset style="border:none; padding:0;">
+                    <legend style="font-size:0.82rem; font-weight:600; color:var(--text-secondary); margin-bottom:0.6rem; letter-spacing:0.5px;">
+                      Events You're Interested In <span aria-hidden="true" style="color:#ef4444">*</span>
+                    </legend>
+                    <div class="checkbox-group" id="events-group" aria-describedby="events-error">
+                      <label class="checkbox-item" for="evt-music">
+                        <input type="checkbox" id="evt-music" name="events" value="music" />
+                        🎵 Music &amp; Concerts
+                      </label>
+                      <label class="checkbox-item" for="evt-tech">
+                        <input type="checkbox" id="evt-tech" name="events" value="tech" />
+                        💻 Hackathon &amp; Tech Talks
+                      </label>
+                      <label class="checkbox-item" for="evt-dance">
+                        <input type="checkbox" id="evt-dance" name="events" value="dance" />
+                        💃 Dance Competitions
+                      </label>
+                      <label class="checkbox-item" for="evt-art">
+                        <input type="checkbox" id="evt-art" name="events" value="art" />
+                        🎨 Art &amp; Culture Expo
+                      </label>
+                    </div>
+                    <span class="field-error" id="events-error" role="alert"></span>
+                  </fieldset>
+                </div>
+
+                <!-- Pass type (radio) -->
+                <div class="form-group">
+                  <fieldset style="border:none; padding:0;">
+                    <legend style="font-size:0.82rem; font-weight:600; color:var(--text-secondary); margin-bottom:0.6rem; letter-spacing:0.5px;">
+                      Pass Type <span aria-hidden="true" style="color:#ef4444">*</span>
+                    </legend>
+                    <div class="radio-group" aria-describedby="pass-error">
+                      <label class="radio-item" for="pass-day">
+                        <input type="radio" id="pass-day" name="pass_type" value="day" required />
+                        Day Pass — ₹300 / day
+                      </label>
+                      <label class="radio-item" for="pass-full">
+                        <input type="radio" id="pass-full" name="pass_type" value="full" />
+                        Full Fest Pass — ₹700 (All 3 Days)
+                      </label>
+                      <label class="radio-item" for="pass-vip">
+                        <input type="radio" id="pass-vip" name="pass_type" value="vip" />
+                        VIP All-Access — ₹1,500 (Front Row + Backstage)
+                      </label>
+                    </div>
+                    <span class="field-error" id="pass-error" role="alert"></span>
+                  </fieldset>
+                </div>
+
+                <!-- Message / Special Requirements -->
+                <div class="form-group">
+                  <label for="message">Special Requirements / Message</label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    placeholder="Any dietary restrictions, accessibility needs, or questions for the committee..."
+                    maxlength="500"
+                    aria-describedby="message-counter"></textarea>
+                  <p class="char-counter" id="message-counter" aria-live="polite">0 / 500 characters</p>
+                </div>
+
+                <!-- Terms checkbox -->
+                <div class="form-group">
+                  <label class="checkbox-item" for="terms" style="align-items:flex-start; gap:0.75rem;">
+                    <input type="checkbox" id="terms" name="terms" required aria-required="true" aria-describedby="terms-error" style="margin-top:2px;" />
+                    <span style="font-size:0.85rem; color:var(--text-secondary); line-height:1.5;">
+                      I agree to the <a href="#" style="color:var(--accent-purple);">Terms &amp; Conditions</a> and <a href="#" style="color:var(--accent-purple);">Privacy Policy</a>. I confirm that the information provided is accurate. <span style="color:#ef4444">*</span>
+                    </span>
+                  </label>
+                  <span class="field-error" id="terms-error" role="alert"></span>
+                </div>
+
+                <button type="submit" class="form-submit-btn" id="submit-registration-btn">
+                  🎟️ Complete Registration
+                </button>
+
+                <div class="success-message" id="success-msg" role="alert">
+                  ✅ You're registered! Check your email for confirmation details. See you at SYNERGY '24! 🎉
+                </div>
+              </form>
+            </div>
+          </div><!-- /form col -->
+
+          <!-- ══ RIGHT: MAP + INFO + FAQ ══ -->
+          <div>
+            <!-- Map -->
+            <p style="font-family:var(--font-main); font-size:1.1rem; font-weight:700; margin-bottom:1rem;">📍 Venue &amp; Location</p>
+            <div class="map-wrapper">
+              <iframe
+                id="contact-map-iframe"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3719.6!2d72.8310!3d21.2!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjHCsDEyJzAwLjAiTiA3MsKwNDknNTEuNiJF!5e0!3m2!1sen!2sin!4v1234567890"
+                title="SYNERGY '24 College Fest Venue on Google Maps"
+                allowfullscreen
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+              </iframe>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="contact-info-card" style="margin-bottom:1.5rem;">
+              <h3>📞 Get in Touch</h3>
+
+              <div class="info-item">
+                <span class="info-icon" aria-hidden="true">📍</span>
+                <div>
+                  <strong>Venue</strong><br />
+                  College Grounds, Main Campus,<br />Surat, Gujarat 395007
+                </div>
+              </div>
+
+              <div class="info-item">
+                <span class="info-icon" aria-hidden="true">📅</span>
+                <div>
+                  <strong>Dates</strong><br />
+                  Friday 15 – Sunday 17 November 2024<br />
+                  Gates open at 9:00 AM daily
+                </div>
+              </div>
+
+              <div class="info-item">
+                <span class="info-icon" aria-hidden="true">📧</span>
+                <div>
+                  <strong>Email</strong><br />
+                  <a href="mailto:synergy2024@college.edu" style="color:var(--accent-purple);">synergy2024@college.edu</a>
+                </div>
+              </div>
+
+              <div class="info-item">
+                <span class="info-icon" aria-hidden="true">📱</span>
+                <div>
+                  <strong>Phone</strong><br />
+                  <a href="tel:+919876543210" style="color:var(--accent-purple);">+91 98765 43210</a><br />
+                  (Mon–Fri, 10 AM – 6 PM)
+                </div>
+              </div>
+            </div>
+
+            <!-- FAQ -->
+            <div class="contact-info-card">
+              <h3>❓ Frequently Asked Questions</h3>
+
+              <article class="faq-item" id="faq-1">
+                <button class="faq-question" onclick="toggleFAQ('faq-1')" aria-expanded="false" aria-controls="faq-1-answer">
+                  Can I register for individual events?
+                  <span class="faq-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="faq-answer" id="faq-1-answer" role="region">
+                  Yes! You can register for specific events. However, a Day Pass or Full Fest Pass gives you access to all events on that day without separate registration.
+                </div>
+              </article>
+
+              <article class="faq-item" id="faq-2">
+                <button class="faq-question" onclick="toggleFAQ('faq-2')" aria-expanded="false" aria-controls="faq-2-answer">
+                  Is the event open to non-students?
+                  <span class="faq-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="faq-answer" id="faq-2-answer" role="region">
+                  Absolutely! SYNERGY '24 is open to all. Students get a 20% discount on passes by showing a valid student ID at the gate.
+                </div>
+              </article>
+
+              <article class="faq-item" id="faq-3">
+                <button class="faq-question" onclick="toggleFAQ('faq-3')" aria-expanded="false" aria-controls="faq-3-answer">
+                  Is there parking available?
+                  <span class="faq-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="faq-answer" id="faq-3-answer" role="region">
+                  Yes, free parking is available on campus for the duration of the fest. We recommend carpooling as space may be limited on peak days.
+                </div>
+              </article>
+
+              <article class="faq-item" id="faq-4">
+                <button class="faq-question" onclick="toggleFAQ('faq-4')" aria-expanded="false" aria-controls="faq-4-answer">
+                  What is the refund policy?
+                  <span class="faq-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="faq-answer" id="faq-4-answer" role="region">
+                  Tickets are non-refundable but transferable up to 48 hours before the event. Contact us at synergy2024@college.edu for transfer requests.
+                </div>
+              </article>
+            </div>
+          </div><!-- /info col -->
+
+        </div><!-- /contact-grid -->
+      </section>
+    </main>
+
+  </div><!-- /page-wrapper -->
+
+  <!-- ══ FOOTER ══ -->
+  <footer role="contentinfo">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">
+          <span class="logo-icon">⚡</span>
+          <span class="logo-text">SYNERGY '24</span>
+        </a>
+        <p>The biggest college fest of the year — celebrating creativity, technology, and student spirit across three unforgettable days.</p>
+        <div class="footer-social" aria-label="Social media links">
+          <a href="#" class="social-btn" aria-label="Instagram">📸</a>
+          <a href="#" class="social-btn" aria-label="Twitter">🐦</a>
+          <a href="#" class="social-btn" aria-label="YouTube">▶️</a>
+          <a href="#" class="social-btn" aria-label="Facebook">👥</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul role="list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="schedule.html">Schedule</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="contact.html">Register</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Events</h4>
+        <ul role="list">
+          <li><a href="schedule.html">Music &amp; Concerts</a></li>
+          <li><a href="schedule.html">Hackathon</a></li>
+          <li><a href="schedule.html">Dance Battle</a></li>
+          <li><a href="schedule.html">Art Exhibition</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Info</h4>
+        <ul role="list">
+          <li><a href="#">About SYNERGY</a></li>
+          <li><a href="#">Sponsors</a></li>
+          <li><a href="#">Press Kit</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 SYNERGY College Fest. All rights reserved.</span>
+      <span>Made with ❤️ by the Fest Committee</span>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="back-to-top-btn" aria-label="Back to top">↑</button>
+
+  <script>
+    // ── Theme Toggle ──
+    const html     = document.documentElement;
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    function applyTheme(t) {
+      html.setAttribute('data-theme', t);
+      themeBtn.textContent = t === 'dark' ? '🌙' : '☀️';
+      localStorage.setItem('synergy-theme', t);
+    }
+    applyTheme(localStorage.getItem('synergy-theme') || 'dark');
+    themeBtn.addEventListener('click', () => applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
+
+    // ── Hamburger ──
+    const hamburger  = document.getElementById('hamburger-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    hamburger.addEventListener('click', () => {
+      const open = mobileMenu.classList.toggle('open');
+      hamburger.classList.toggle('open', open);
+      hamburger.setAttribute('aria-expanded', String(open));
+    });
+    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+    }));
+
+    // ── Live character counter for textarea ──
+    const msgArea   = document.getElementById('message');
+    const msgCounter = document.getElementById('message-counter');
+    msgArea.addEventListener('input', () => {
+      const len = msgArea.value.length;
+      msgCounter.textContent = `${len} / 500 characters`;
+      msgCounter.style.color = len > 450 ? '#f59e0b' : 'var(--text-muted)';
+    });
+
+    // ── FAQ Toggle ──
+    function toggleFAQ(id) {
+      const item = document.getElementById(id);
+      const btn  = item.querySelector('.faq-question');
+      const isOpen = item.classList.toggle('open');
+      btn.setAttribute('aria-expanded', String(isOpen));
+    }
+
+    // ── Form Validation (Live + Submit) ──
+    const form = document.getElementById('registration-form');
+
+    const validators = {
+      'first-name': { el: null, error: null,
+        validate: v => v.trim().length < 2 ? 'First name must be at least 2 characters.' : '' },
+      'last-name':  { el: null, error: null,
+        validate: v => v.trim().length < 2 ? 'Last name must be at least 2 characters.' : '' },
+      'email':      { el: null, error: null,
+        validate: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? '' : 'Please enter a valid email address.' },
+      'phone':      { el: null, error: null,
+        validate: v => /^[\+]?[\d\s\-]{10,15}$/.test(v.trim()) ? '' : 'Enter a valid 10-digit phone number.' },
+      'college':    { el: null, error: null,
+        validate: v => v.trim().length < 3 ? 'Please enter your college name.' : '' },
+      'year':       { el: null, error: null,
+        validate: v => v ? '' : 'Please select your year of study.' },
+      'reg-date':   { el: null, error: null,
+        validate: v => v ? '' : 'Please select an attendance date.' },
+      'tickets':    { el: null, error: null,
+        validate: v => (v >= 1 && v <= 10) ? '' : 'Tickets must be between 1 and 10.' },
+    };
+
+    // Initialise validator refs
+    Object.keys(validators).forEach(id => {
+      validators[id].el    = document.getElementById(id);
+      validators[id].error = document.getElementById(`${id}-error`);
+    });
+
+    // Live validation on blur
+    Object.keys(validators).forEach(id => {
+      const { el, error, validate } = validators[id];
+      el.addEventListener('blur', () => {
+        const msg = validate(el.value);
+        error.textContent = msg;
+        el.classList.toggle('error', !!msg);
+      });
+      el.addEventListener('input', () => {
+        if (el.classList.contains('error')) {
+          const msg = validate(el.value);
+          error.textContent = msg;
+          el.classList.toggle('error', !!msg);
+        }
+      });
+    });
+
+    // Submit handler
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      let isValid = true;
+
+      // Validate text/select/number inputs
+      Object.keys(validators).forEach(id => {
+        const { el, error, validate } = validators[id];
+        const msg = validate(el.value);
+        error.textContent = msg;
+        el.classList.toggle('error', !!msg);
+        if (msg) isValid = false;
+      });
+
+      // Validate checkboxes (at least one)
+      const checked = form.querySelectorAll('input[name="events"]:checked');
+      const evtError = document.getElementById('events-error');
+      if (checked.length === 0) {
+        evtError.textContent = 'Please select at least one event.';
+        isValid = false;
+      } else {
+        evtError.textContent = '';
+      }
+
+      // Validate pass type
+      const passChecked = form.querySelector('input[name="pass_type"]:checked');
+      const passError   = document.getElementById('pass-error');
+      if (!passChecked) {
+        passError.textContent = 'Please select a pass type.';
+        isValid = false;
+      } else {
+        passError.textContent = '';
+      }
+
+      // Validate terms
+      const terms      = document.getElementById('terms');
+      const termsError = document.getElementById('terms-error');
+      if (!terms.checked) {
+        termsError.textContent = 'You must accept the terms to register.';
+        isValid = false;
+      } else {
+        termsError.textContent = '';
+      }
+
+      if (isValid) {
+        const btn = document.getElementById('submit-registration-btn');
+        btn.textContent = '⏳ Processing...';
+        btn.disabled = true;
+
+        // Simulate API call
+        setTimeout(() => {
+          btn.textContent = '✅ Registered!';
+          btn.style.background = 'linear-gradient(135deg,#10b981,#059669)';
+          document.getElementById('success-msg').classList.add('show');
+          form.reset();
+
+          // Reset after 8 seconds
+          setTimeout(() => {
+            btn.textContent = '🎟️ Complete Registration';
+            btn.style.background = '';
+            btn.disabled = false;
+            document.getElementById('success-msg').classList.remove('show');
+          }, 8000);
+        }, 1500);
+      } else {
+        // Scroll to first error
+        const firstError = form.querySelector('.error');
+        if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    });
+
+    // ── Back to Top ──
+    const backToTop = document.getElementById('back-to-top-btn');
+    window.addEventListener('scroll', () => backToTop.classList.toggle('visible', window.scrollY > 400));
+    backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  </script>
+</body>
+</html>

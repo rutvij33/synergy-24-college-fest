@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Schedule — SYNERGY '24 College Fest</title>
+  <meta name="description" content="Full event schedule and timetable for SYNERGY '24 college fest. Find event timings, venues, and registration status for all 50+ events across 3 days." />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Print button */
+    .print-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.25rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-glass);
+      background: var(--bg-glass);
+      color: var(--text-secondary);
+      font-family: var(--font-main);
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .print-btn:hover {
+      border-color: var(--accent-purple);
+      color: var(--accent-purple);
+      background: rgba(139,92,246,0.08);
+    }
+
+    /* Day filter tabs */
+    .day-tabs {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .day-tab {
+      padding: 0.55rem 1.5rem;
+      border-radius: 100px;
+      font-family: var(--font-main);
+      font-weight: 600;
+      font-size: 0.9rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-glass);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .day-tab.active {
+      background: var(--accent-grad);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 4px 15px rgba(139,92,246,0.35);
+    }
+    .day-tab:hover:not(.active) {
+      border-color: var(--accent-purple);
+      color: var(--accent-purple);
+    }
+
+    .schedule-section { display: none; }
+    .schedule-section.active { display: block; }
+
+    .schedule-section h3 {
+      font-family: var(--font-main);
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .day-badge {
+      padding: 0.25rem 0.85rem;
+      border-radius: 100px;
+      background: var(--accent-grad);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #fff;
+    }
+
+    .venue-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.2rem 0.65rem;
+      border-radius: 100px;
+      background: rgba(59,130,246,0.12);
+      color: var(--accent-blue);
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .events-table tbody { background: var(--bg-primary); }
+    .events-table tbody tr:nth-child(even) { background: var(--bg-card); }
+  </style>
+</head>
+<body>
+
+  <!-- ══ NAVIGATION ══ -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="nav-logo" id="nav-logo-schedule">
+      <span class="logo-icon" aria-hidden="true">⚡</span>
+      <span class="logo-text">SYNERGY '24</span>
+    </a>
+
+    <ul class="nav-links" role="list">
+      <li><a href="index.html"    id="nav-home">Home</a></li>
+      <li><a href="schedule.html" class="active" id="nav-schedule">Schedule</a></li>
+      <li><a href="gallery.html"  id="nav-gallery">Gallery</a></li>
+      <li><a href="contact.html"  id="nav-contact">Register</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <button class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle dark/light mode">🌙</button>
+      <a href="contact.html" class="btn-nav-cta" id="nav-register-cta">Register Now</a>
+      <button class="hamburger" id="hamburger-btn" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation">
+    <a href="index.html"    id="mob-home">Home</a>
+    <a href="schedule.html" class="active" id="mob-schedule">Schedule</a>
+    <a href="gallery.html"  id="mob-gallery">Gallery</a>
+    <a href="contact.html"  id="mob-contact">Register</a>
+  </nav>
+
+  <div class="page-wrapper">
+
+    <!-- ══ PAGE HERO ══ -->
+    <header class="page-hero" role="banner">
+      <span class="section-tag">Nov 15 – 17, 2024</span>
+      <h1>Event <span class="highlight">Schedule</span></h1>
+      <p>Your complete guide to all 50+ events across 3 days of SYNERGY '24.</p>
+    </header>
+
+    <!-- ══ SCHEDULE ══ -->
+    <main>
+      <section class="section" aria-labelledby="schedule-heading">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:2rem; max-width:1100px; margin-left:auto; margin-right:auto;">
+          <h2 id="schedule-heading" class="section-title" style="margin-bottom:0; font-size:1.6rem;">Full Timetable</h2>
+          <button class="print-btn" onclick="window.print()" id="print-schedule-btn" aria-label="Print schedule">🖨️ Print Schedule</button>
+        </div>
+
+        <!-- Day Filter Tabs -->
+        <div class="day-tabs" role="tablist" aria-label="Filter by day" style="max-width:1100px; margin-left:auto; margin-right:auto; justify-content:flex-start;">
+          <button class="day-tab active" id="tab-all"   role="tab" aria-selected="true"  onclick="filterDay('all',this)">All Days</button>
+          <button class="day-tab"        id="tab-day1"  role="tab" aria-selected="false" onclick="filterDay('day1',this)">Day 1 — Nov 15</button>
+          <button class="day-tab"        id="tab-day2"  role="tab" aria-selected="false" onclick="filterDay('day2',this)">Day 2 — Nov 16</button>
+          <button class="day-tab"        id="tab-day3"  role="tab" aria-selected="false" onclick="filterDay('day3',this)">Day 3 — Nov 17</button>
+        </div>
+
+        <!-- ── DAY 1 ── -->
+        <div class="schedule-section active" id="section-day1" style="max-width:1100px; margin:0 auto 3rem;" aria-labelledby="day1-heading">
+          <h3 id="day1-heading">
+            Friday, November 15
+            <span class="day-badge">Day 1</span>
+          </h3>
+
+          <div class="table-wrapper" role="region" aria-label="Day 1 schedule table">
+            <table class="events-table" id="day1-table">
+              <thead>
+                <tr>
+                  <th scope="col">Time</th>
+                  <th scope="col">Event Name</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">Venue</th>
+                  <th scope="col" colspan="2">Entry Fee</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>09:00 AM</td>
+                  <td>Opening Ceremony</td>
+                  <td>Cultural</td>
+                  <td><span class="venue-pill">📍 Main Auditorium</span></td>
+                  <td colspan="2">Free</td>
+                  <td><span class="badge-status free">Free</span></td>
+                </tr>
+                <tr>
+                  <td>10:30 AM</td>
+                  <td>Street Photography Challenge</td>
+                  <td>Art</td>
+                  <td><span class="venue-pill">📍 Campus Wide</span></td>
+                  <td colspan="2">₹50</td>
+                  <td><span class="badge-status open">Open</span></td>
+                </tr>
+                <tr>
+                  <td>12:00 PM</td>
+                  <td>Quiz Bonanza</td>
+                  <td>Academic</td>
+                  <td><span class="venue-pill">📍 Seminar Hall A</span></td>
+                  <td colspan="2">₹100 / team</td>
+                  <td><span class="badge-status open">Open</span></td>
+                </tr>
+                <tr>
+                  <td>02:00 PM</td>
+                  <td>DJ Workshop: Beatmaking 101</td>
+                  <td>Music</td>
+                  <td><span class="venue-pill">📍 Music Lab</span></td>
+                  <td colspan="2">₹200</td>
+                  <td><span class="badge-status limited">Limited</span></td>
+                </tr>
+                <tr>
+                  <td>04:00 PM</td>
+                  <td>Battle of Bands — Qualifier</td>
+                  <td>Music</td>
+                  <td><span class="venue-pill">📍 Open Air Stage</span></td>
+                  <td colspan="2">₹500 / band</td>
+                  <td><span class="badge-status open">Open</span></td>
+                </tr>
+                <tr>
+                  <td>06:30 PM</td>
+                  <td>Stand-Up Comedy Night</td>
+                  <td>Entertainment</td>
+                  <td><span class="venue-pill">📍 Main Auditorium</span></td>
+                  <td colspan="2">₹150</td>
+                  <td><span class="badge-status open">Open</span></td>
+                </tr>
+                <tr>
+                  <td>09:00 PM</td>
+                  <td>🎵 Midnight Rave — Opening Night</td>
+                  <td>Concert</td>
+                  <td><span class="venue-pill">📍 Main Ground</span></td>
+                  <td colspan="2">₹300</td>
+                  <td><span class="badge-status limited">Limited</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ── DAY 2 ── -->
+        <div class="schedule-section active" id="section-day2" style="max-width:1100px; margin:0 auto 3rem;" aria-labelledby="day2-heading">
+          <h3 id="day2-heading">
+            Saturday, November 16
+            <span class="day-badge">Day 2</span>
+          </h3>
+
+          <div class="table-wrapper" role="region" aria-label="Day 2 schedule table">
+            <table class="events-table" id="day2-table">
+              <thead>
+                <tr>
+                  <th scope="col">Time</th>
+                  <th scope="col">Event Name</th>
+                  <th scope="col">Category</th>
+                  <th scope="col" rowspan="1">Venue</th>
+                  <th scope="col">Entry Fee</th>
+                  <th scope="col">Prize Pool</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td rowspan="2">08:00 AM – 06:00 PM</td>
+                  <td>💻 HackFest '24 (24-Hour Codeathon)</td>
+                  <td>Tech</td>
+                  <td rowspan="2"><span class="venue-pill">📍 Tech Innovation Hub</span></td>
+                  <td>₹500 / team</td>
+                  <td>₹1,00,000</td>
+                  <td><span class="badge-status open">Open</span></td>
+                </tr>
+                <tr>
+                  <td>⚡ Hardware &amp; IoT Project Expo</td>
+                  <td>Tech</td>
+                  <td>Free Entry</td>
+                  <td>₹25,000</td>
+                  <td><span class="badge-status open">Open</span></td>
+                </tr>
+                <tr>
+                  <td>10:00 AM</td>
+                  <td>Fashion Show — Ramp Walk</td>
+                  <td>Cultural</td>
+                  <td><span class="venue-pill">📍 F-Block Corridor</span></td>
+                  <td>₹200</td>
+                  <td>₹10,000</td>
+                  <td><span class="badge-status limited">Limited</span></td>
+                </tr>
+                <tr>
+                  <td>11:00 AM</td>
+                  <td>Startup Pitch Competition</td>
+                  <td>Tech</td>
+                  <td><span class="venue-pill">📍 Seminar Hall B</span></td>
+                  <td>₹300 / team</td>
+                  <td>₹50,000</td>
+                  <td><span class="badge-status open">Open</span></td>
+                </tr>
+                <tr>
+                  <td>01:00 PM</td>
+                  <td>Food Stall Fiesta</td>
+                  <td>Food</td>
+                  <td><span class="venue-pill">📍 College Lawn</span></td>
+                  <td>Free Entry</td>
+                  <td>—</td>
+                  <td><span class="badge-status free">Free</span></td>
+                </tr>
+                <tr>
+                  <td>03:00 PM</td>
+                  <td>Robotics Exhibition &amp; Demo</td>
+                  <td>Tech</td>
+                  <td><span class="venue-pill">📍 Engineering Block</span></td>
+                  <td>Free</td>
+                  <td>—</td>
+                  <td><span class="badge-status free">Free</span></td>
+                </tr>
+                <tr>
+                  <td>05:00 PM</td>
+                  <td>Spoken Word &amp; Poetry Slam</td>
+                  <td>Literary</td>
+                  <td><span class="venue-pill">📍 Amphitheatre</span></td>
+                  <td>₹100</td>
+                  <td>₹5,000</td>
+                  <td><span class="badge-status open">Open</span></td>
+                </tr>
+                <tr>
+                  <td>08:00 PM</td>
+                  <td>🎤 DJ Luna — Headliner Night</td>
+                  <td>Concert</td>
+                  <td><span class="venue-pill">📍 Main Ground</span></td>
+                  <td>₹500</td>
+                  <td>—</td>
+                  <td><span class="badge-status sold-out">Sold Out</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ── DAY 3 ── -->
+        <div class="schedule-section active" id="section-day3" style="max-width:1100px; margin:0 auto;" aria-labelledby="day3-heading">
+          <h3 id="day3-heading">
+            Sunday, November 17
+            <span class="day-badge">Day 3</span>
+          </h3>
+
+          <div class="table-wrapper" role="region" aria-label="Day 3 schedule table">
+            <table class="events-table" id="day3-table">
+              <thead>
+                <tr>
+                  <th scope="col">Time</th>
+                  <th scope="col" colspan="2">Event Name</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">Venue</th>
+                  <th scope="col">Entry Fee</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>09:00 AM</td>
+                  <td colspan="2">Campus Art Walk — Gallery Open</td>
+                  <td>Art</td>
+                  <td><span class="venue-pill">📍 Art Block</span></td>
+                  <td>Free</td>
+                  <td><span class="badge-status free">Free</span></td>
+                </tr>
+                <tr>
+                  <td>10:00 AM</td>
+                  <td colspan="2">HackFest '24 — Final Presentations</td>
+                  <td>Tech</td>
+                  <td><span class="venue-pill">📍 Tech Hub</span></td>
+                  <td>—</td>
+                  <td><span class="badge-status open">Open</span></td>
+                </tr>
+                <tr>
+                  <td>12:00 PM</td>
+                  <td colspan="2">Cosplay &amp; Comic-Con Corner</td>
+                  <td>Cultural</td>
+                  <td><span class="venue-pill">📍 E-Block Lobby</span></td>
+                  <td>₹150</td>
+                  <td><span class="badge-status open">Open</span></td>
+                </tr>
+                <tr>
+                  <td>02:00 PM</td>
+                  <td colspan="2">🏆 Battle of Beats — Dance Final</td>
+                  <td>Dance</td>
+                  <td><span class="venue-pill">📍 Arena Stage</span></td>
+                  <td>₹200</td>
+                  <td><span class="badge-status limited">Limited</span></td>
+                </tr>
+                <tr>
+                  <td>04:30 PM</td>
+                  <td colspan="2">Prize Ceremony — All Events</td>
+                  <td>Ceremony</td>
+                  <td><span class="venue-pill">📍 Main Auditorium</span></td>
+                  <td>Free</td>
+                  <td><span class="badge-status free">Free</span></td>
+                </tr>
+                <tr>
+                  <td>07:00 PM</td>
+                  <td colspan="2">Cultural Fusion — Classical Meets Modern</td>
+                  <td>Cultural</td>
+                  <td><span class="venue-pill">📍 Amphitheatre</span></td>
+                  <td>₹100</td>
+                  <td><span class="badge-status open">Open</span></td>
+                </tr>
+                <tr>
+                  <td>09:30 PM</td>
+                  <td colspan="2">🎆 Closing Night Spectacular</td>
+                  <td>Concert</td>
+                  <td><span class="venue-pill">📍 Main Ground</span></td>
+                  <td>₹400</td>
+                  <td><span class="badge-status limited">Limited</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ══ EVENT GUIDELINES ARTICLE ══ -->
+        <article style="max-width:1100px; margin:2rem auto; padding:1.75rem 2rem; background:var(--bg-card); border:1px solid var(--border-glass); border-radius:var(--radius-md);">
+          <h3 style="font-size:1.15rem; font-weight:700; color:var(--text-primary); margin-bottom:0.75rem; display:flex; align-items:center; gap:0.5rem;">
+            📌 Timetable &amp; Venue Guidelines
+          </h3>
+          <ul style="color:var(--text-secondary); font-size:0.9rem; line-height:1.7; padding-left:1.25rem;">
+            <li>Please arrive at the respective venues at least <strong>15 minutes</strong> prior to scheduled start times.</li>
+            <li>College ID card or registration confirmation email with barcode is mandatory for entry.</li>
+            <li>Concert passes and workshop seats are allotted on a first-come, first-served basis for open tier entries.</li>
+            <li>Event timings are subject to slight changes based on live performances; check live announcements on campus.</li>
+          </ul>
+        </article>
+
+        <!-- Register CTA -->
+        <div style="text-align:center; padding-top:1.5rem; max-width:1100px; margin:0 auto;">
+          <p style="color:var(--text-secondary); margin-bottom:1.25rem; font-size:0.95rem;">Ready to be part of SYNERGY '24?</p>
+          <a href="contact.html" class="btn-primary" id="schedule-register-btn">🎟️ Register for Events →</a>
+        </div>
+      </section>
+    </main>
+
+  </div><!-- /page-wrapper -->
+
+  <!-- ══ FOOTER ══ -->
+  <footer role="contentinfo">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">
+          <span class="logo-icon">⚡</span>
+          <span class="logo-text">SYNERGY '24</span>
+        </a>
+        <p>The biggest college fest of the year — celebrating creativity, technology, and student spirit across three unforgettable days.</p>
+        <div class="footer-social" aria-label="Social media links">
+          <a href="#" class="social-btn" aria-label="Instagram">📸</a>
+          <a href="#" class="social-btn" aria-label="Twitter">🐦</a>
+          <a href="#" class="social-btn" aria-label="YouTube">▶️</a>
+          <a href="#" class="social-btn" aria-label="Facebook">👥</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul role="list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="schedule.html">Schedule</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="contact.html">Register</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Events</h4>
+        <ul role="list">
+          <li><a href="schedule.html">Music &amp; Concerts</a></li>
+          <li><a href="schedule.html">Hackathon</a></li>
+          <li><a href="schedule.html">Dance Battle</a></li>
+          <li><a href="schedule.html">Art Exhibition</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Info</h4>
+        <ul role="list">
+          <li><a href="#">About SYNERGY</a></li>
+          <li><a href="#">Sponsors</a></li>
+          <li><a href="#">Press Kit</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 SYNERGY College Fest. All rights reserved.</span>
+      <span>Made with ❤️ by the Fest Committee</span>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="back-to-top-btn" aria-label="Back to top">↑</button>
+
+  <script>
+    // ── Theme Toggle ──
+    const html     = document.documentElement;
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    function applyTheme(t) {
+      html.setAttribute('data-theme', t);
+      themeBtn.textContent = t === 'dark' ? '🌙' : '☀️';
+      localStorage.setItem('synergy-theme', t);
+    }
+    applyTheme(localStorage.getItem('synergy-theme') || 'dark');
+    themeBtn.addEventListener('click', () => applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
+
+    // ── Hamburger ──
+    const hamburger  = document.getElementById('hamburger-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    hamburger.addEventListener('click', () => {
+      const open = mobileMenu.classList.toggle('open');
+      hamburger.classList.toggle('open', open);
+      hamburger.setAttribute('aria-expanded', String(open));
+    });
+
+    // ── Day Filter ──
+    function filterDay(day, btn) {
+      document.querySelectorAll('.day-tab').forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+
+      const sections = document.querySelectorAll('.schedule-section');
+      sections.forEach(s => {
+        if (day === 'all') {
+          s.classList.add('active');
+        } else {
+          s.classList.toggle('active', s.id === `section-${day}`);
+        }
+      });
+    }
+
+    // ── Back to Top ──
+    const backToTop = document.getElementById('back-to-top-btn');
+    window.addEventListener('scroll', () => backToTop.classList.toggle('visible', window.scrollY > 400));
+    backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  </script>
+</body>
+</html>
