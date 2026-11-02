@@ -5,7 +5,9 @@ A modern, responsive, and accessible multi-page website built for **SYNERGY '24*
 ---
 
 ## 🚀 Live Demo & Repository
-- **Local Access:** Open `index.html` directly in any web browser, or serve via `npx serve` / `python3 -m http.server`.
+- **🌐 Live Vercel Website:** [https://synergy-24-college-fest-6c58.vercel.app/](https://synergy-24-college-fest-6c58.vercel.app/)
+- **📁 GitHub Repository:** [https://github.com/rutvij33/synergy-24-college-fest](https://github.com/rutvij33/synergy-24-college-fest)
+- **💻 Local Access:** Open `index.html` directly in any web browser, or serve via `python3 -m http.server 8000`.
 - **Pages Included:**
   1. [`index.html`](index.html) — **Home Page**: Hero section, statistics, event highlights, countdown teaser, image slider, and sponsor strip.
   2. [`schedule.html`](schedule.html) — **Schedule & Timetable Page**: Day 1, Day 2, and Day 3 full event timetables with interactive day filtering, `colspan`, `rowspan`, and a print-friendly view.
